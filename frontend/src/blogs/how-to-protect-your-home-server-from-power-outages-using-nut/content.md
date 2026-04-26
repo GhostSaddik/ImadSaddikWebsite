@@ -20,3 +20,9 @@ Before configuring the software, you need to understand the hardware that powers
 This is a [Line Interactive UPS](https://www.fs.com/blog/comparison-of-ups-topologies-line-interactive-vs-online-vs-offline-3538.html). This means it actively regulates the incoming AC voltage to correct minor power fluctuations without switching to the battery, which extends the lifespan of the unit. It has a capacity of 2000 VA or 1200 W, which provides plenty of headroom for a mini PC, a network switch, and a laptop.
 
 If you open the case, you will find two GP09122L batteries inside.
+
+### The battery chemistry
+
+These are 12V batteries. They use Valve Regulated Lead-Acid (VRLA) technology with an Absorbent Glass Mat (AGM).
+
+Because they use an AGM design, the sulfuric acid is absorbed into a fiberglass mat rather than floating freely as a liquid. This makes the batteries completely sealed, spill-proof, and maintenance-free. You never have to add water to them.
