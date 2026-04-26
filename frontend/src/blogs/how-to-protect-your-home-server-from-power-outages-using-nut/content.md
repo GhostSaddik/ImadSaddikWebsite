@@ -52,3 +52,26 @@ For a reliable home server setup, we use the industry-standard "safe empty" poin
 ::: image ./02_discharge_table.png "GP09122 battery datasheet discharge characteristics table"
 This table mapping current (Amps) to runtime helps us determine how much load the battery can handle before reaching our 1.75V per cell safety limit.
 :::
+
+#### Estimating your runtime
+
+Before setting up automation, you need to know your "safety window": how long your batteries can actually support your load. To find this, combine the maximum wattage of your devices and compare it to the **Constant Current Discharge** table in your datasheet.
+
+For my current setup, the theoretical maximum load is:
+
+- **Gaming laptop:** 280W
+- **Mini PC:** 65W
+- **Network switch:** 3W
+- **Total load:** 348W
+
+Since this is a 24V system, we calculate the current draw in Amps: `348W / 24V = 14.5A`. Looking at the 1.75V row in the discharge table, a 14.5A draw falls between the 15-minute (16.3A) and 30-minute (9.7A) columns.
+
+::: image ./03_discharge_table_highlight.png "Highlighted discharge table showing the 14.5A window"
+By focusing on the 1.75V safety row, we can see exactly where our 14.5A load sits relative to the runtime columns.
+:::
+
+This tells me that even if every device is running at 100% capacity, I have a **guaranteed 20-minute window** to perform a graceful shutdown. In a normal idle state, this runtime likely extends to several hours.
+
+::: info
+By feeding these exact voltage limits into the NUT driver later, the software will translate the raw voltage into a human-readable 0% to 100% battery capacity scale on your dashboards.
+:::
