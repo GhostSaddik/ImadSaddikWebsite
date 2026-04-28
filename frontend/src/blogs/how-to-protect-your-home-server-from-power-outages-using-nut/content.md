@@ -455,3 +455,28 @@ Save the file. Homepage updates automatically without needing a restart. If you 
 ::: image ./09_homepage_widget.png "A custom UPS widget in Homepage showing battery percentage, load, and status"
 This widget uses the PeaNUT API to display real-time UPS metrics directly on your Homepage dashboard.
 :::
+
+## Testing the system
+
+It is important to test your shutdown sequence to make sure everything works perfectly before a real power outage happens. You can do this in two ways: a safe software simulation or a full hardware test.
+
+::: warning
+Both of these tests will shut down your computers. Save all your work and close all applications before proceeding.
+:::
+
+### Software simulation
+
+This test verifies that the primary server can successfully broadcast the emergency signal and that all secondary machines respond correctly. This method ignores the actual battery level and forces an immediate shutdown command across the network.
+
+On your primary server, trigger the forced shutdown signal:
+
+```bash
+sudo upsmon -c fsd
+```
+
+You should see your secondary devices begin their shutdown sequence first, followed shortly by the primary server. After you power the machines back on, you must clear the emergency flag before the NUT data server starts normally again:
+
+```bash
+sudo rm -f /etc/killpower
+sudo systemctl restart nut-server
+```
