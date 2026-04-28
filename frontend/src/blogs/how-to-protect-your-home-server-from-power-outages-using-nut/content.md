@@ -331,7 +331,7 @@ sudo systemctl restart nut-server nut-monitor
 
 ### Configuring the secondary monitor
 
-Now, perform the same setup on your secondary machine. Since your gaming laptop only needs to listen to the network, install just the client package:
+Now, perform the same setup on your secondary machine. Since your secondary machine only needs to listen to the network, install just the client package:
 
 ```bash
 sudo apt install nut-client -y
