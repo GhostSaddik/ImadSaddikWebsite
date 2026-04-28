@@ -480,3 +480,19 @@ You should see your secondary devices begin their shutdown sequence first, follo
 sudo rm -f /etc/killpower
 sudo systemctl restart nut-server
 ```
+
+### Real world test
+
+While the software test is great for checking network communication, the physical test is the ultimate proof that your entire stack works.
+
+It verifies that the UPS detects the power loss, the driver reads the battery drain, and the monitor automatically triggers the alert when the voltage hits the critical low limit.
+
+Follow these steps to simulate a blackout:
+
+1. **Unplug the UPS:** Physically pull the UPS power cable from the wall socket.
+2. **Monitor the dashboards:** Your Homepage and PeaNUT dashboards should immediately update to show the status as **On Battery**.
+3. **Wait for the drain:** Let the battery discharge naturally. You can watch the voltage drop on your Netdata charts.
+4. **The critical threshold:** Once the voltage hits your configured limit (e.g., 21.0V), the UPS will flag a low battery state.
+5. **The graceful exit:** The primary server will detect this state, broadcast the shutdown signal to the secondary devices, and all machines will power off safely.
+
+If all machines shut down gracefully before the UPS battery completely dies, your home server is officially protected from power outages.
