@@ -500,3 +500,9 @@ Follow these steps to simulate a blackout:
 5. **The graceful exit:** The primary server will detect this state, broadcast the shutdown signal to the secondary devices, and all machines will power off safely.
 
 If all machines shut down gracefully before the UPS battery completely dies, your home server is officially protected from power outages.
+
+## Conclusion
+
+Setting up NUT takes some effort, but it is the only way to make sure your home server handles power outages safely. Instead of hoping you are home to pull the plug, you now have a system that monitors its own health and shuts down gracefully before the battery runs out.
+
+Just remember to check your battery health once in a while. Lead-acid batteries degrade over time, and it is better to find out your capacity has dropped during a scheduled test than during a real blackout.
