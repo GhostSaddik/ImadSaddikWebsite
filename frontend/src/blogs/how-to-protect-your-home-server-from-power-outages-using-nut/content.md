@@ -446,6 +446,10 @@ Now that PeaNUT is serving an API, you can add a live UPS widget to your Homepag
                   to: Low Battery
 ```
 
+::: info
+Notice the `njoy` at the very end of the API URL. This must match the exact name you assigned to your device inside your `ups.conf` file. If you named your UPS something else, be sure to update this URL.
+:::
+
 Save the file. Homepage updates automatically without needing a restart. If you now go to your Homepage dashboard, you will see your new UPS widget displaying the live battery capacity, current load, and connection status.
 
 ::: image ./09_homepage_widget.png "A custom UPS widget in Homepage showing battery percentage, load, and status"
