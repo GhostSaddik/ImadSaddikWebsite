@@ -197,3 +197,7 @@ git commit -m "WIP: saving a broken state" --no-verify
 ::: warning
 Use this flag sparingly. Bypassing your local checks means those errors will be caught later by your cloud CI/CD pipeline, forcing you to fix them anyway.
 :::
+
+## Conclusion
+
+By using local pre-commit hooks, you keep your codebase consistent and professional. You have built an automated gatekeeper that prevents typos and formatting issues from reaching production or cluttering your Git history.
