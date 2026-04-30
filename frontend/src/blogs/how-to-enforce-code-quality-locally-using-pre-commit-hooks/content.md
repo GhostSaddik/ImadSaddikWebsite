@@ -122,3 +122,64 @@ This section uses a few specific strategies:
 - **Targeted arguments**: The ESLint hook uses the `--config` argument to point directly to your frontend's specific ESLint configuration file.
 - **Additional dependencies**: Because ESLint needs to understand Vue's custom `.vue` file structure, you must explicitly provide plugins like `eslint-plugin-vue` so the hook runs correctly in its isolated environment.
 - **The local repository**: Running Prettier as a `local` hook uses your existing Node.js setup, which is faster than downloading a separate copy. It executes `npx prettier --write` on your frontend files.
+
+## Install and test the hooks
+
+Your configuration file is complete. Now you need to install the pre-commit framework so it can link those hooks to your Git repository.
+
+Open your terminal in your project's root directory. Before installing the framework, isolate your environment to avoid conflicts with your system packages. You can do this using the built-in `venv` module or `Conda`.
+
+If you are using Python's venv, here is how to create a new virtual environment:
+
+```bash
+python3 -m venv venv
+```
+
+Next, activate it.
+
+```bash
+source venv/bin/activate
+```
+
+If you prefer Conda, create a new environment and specify the Python version you want to use:
+
+```bash
+conda create --name my-project python=3.13 -y
+```
+
+Then, activate the Conda environment.
+
+```bash
+conda activate my-project
+```
+
+Install the pre-commit package using `pip`.
+
+```bash
+pip install pre-commit
+```
+
+Next, tell the framework to read your YAML file and install the hidden hook scripts into your `.git` directory.
+
+```bash
+pre-commit install
+```
+
+From now on, whenever you type `git commit`, this script will intercept the process and run your configured hooks first.
+
+To verify that everything is working properly, you should manually trigger the hooks across your entire project right now.
+
+```bash
+pre-commit run --all-files
+```
+
+The first time you run this, it will take a minute or two because the framework has to download Ruff, ESLint, and the Node.js dependencies. Once it finishes, it will output a checklist in your terminal.
+
+```output
+ruff (lint)........................................Passed
+ruff (format)......................................Passed
+eslint (frontend)..................................Passed
+prettier (frontend)................................Passed
+```
+
+If a check fails, the framework blocks the commit. It will often fix the formatting automatically for you, but you still need to stage the new changes (`git add .`) and run the commit command again.
