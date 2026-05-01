@@ -231,7 +231,7 @@ Your repository is now safely decoupled from your project's local Python environ
 cat .git/hooks/pre-commit
 ```
 
-Look for the `INSTALL_PYTHON` variable. It should point to your `pipx` installation (e.g., `~/.local/share/pipx/...`), ensuring your hooks work regardless of which project-specific virtual environment is active.
+Look for the `INSTALL_PYTHON` variable. It should point to your `pipx` installation (e.g., `~/.local/share/pipx/venvs/pre-commit/bin/python`), so that your hooks work regardless of which project-specific virtual environment is active.
 
 ### Migrating from a virtual environment
 
