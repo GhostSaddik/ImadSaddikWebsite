@@ -3,6 +3,11 @@
 
 
 
+
+
+
+
+
   <SkipLink />
   <NavBar :visited-page="visitedPage" />
   <RouterView @page-visited="handlePageVisitedEvent" @show-toast="handleShowToastEvent" />
