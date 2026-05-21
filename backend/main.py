@@ -13,10 +13,6 @@ from database import initialize_database
 from exception_handlers import http_exception_handler, request_validation_exception_handler, unhandled_exception_handler
 from middleware import log_request_middleware
 
-import hashlib
-
-hashlib.md5()
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
