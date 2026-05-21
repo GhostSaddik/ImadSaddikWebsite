@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-axios from "axios";
+import axios from "axios";
 
 axios.defaults.baseURL = "/";
 
