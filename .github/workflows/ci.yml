@@ -62,7 +62,7 @@ jobs:
         frontend-unit-tests,
         backend-unit-tests,
         backend-integration-tests,
-        e2e-tests,
+        e2e-tests
       ]
     runs-on: ubuntu-latest
     if: always()
