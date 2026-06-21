@@ -31,7 +31,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Download Meilisearch binary
-        working-directory: ./backend
         run: |
           MAX_RETRIES="${MEILISEARCH_DOWNLOAD_MAX_RETRIES}"
           RETRY_DELAY="${MEILISEARCH_DOWNLOAD_RETRY_DELAY}"
@@ -53,7 +52,6 @@ jobs:
           done
 
       - name: Start Meilisearch
-        working-directory: ./backend
         run: |
           ./meilisearch --master-key="${MEILISEARCH_MASTER_KEY}" &
           echo "Waiting for Meilisearch to start..."
@@ -77,7 +75,18 @@ jobs:
         run: |
           nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
           echo "Waiting for backend to start..."
-          sleep 5
+          for i in {1..30}; do
+            if curl -s http://localhost:8000/api/health | grep -q "ok"; then
+              echo "Backend is ready!"
+              break
+            fi
+            echo "Attempt $i: Backend not ready yet..."
+            sleep 1
+          done
+          if ! curl -s http://localhost:8000/api/health | grep -q "ok"; then
+            echo "Backend failed to start after 30 attempts"
+            exit 1
+          fi
 
       - name: ZAP API scan
         uses: zaproxy/action-api-scan@v0.10.0

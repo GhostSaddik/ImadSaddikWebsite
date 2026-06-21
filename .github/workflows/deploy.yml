@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://imadsaddik.com
+      url: https://setuprkhis.com
 
     steps:
       - name: Check out repository
@@ -43,10 +43,8 @@ jobs:
             BACKUP_RETENTION_COUNT=5
             TIMESTAMP=$(date +%Y%m%d%H%M%S)
 
-            # 1. Create backup directory
             mkdir -p $BACKUP_DIR
 
-            # 2. Backup SQLite database
             echo "Backing up SQLite database..."
             if [ -f "$BACKEND_DIR/visitors.db" ]; then
               cp "$BACKEND_DIR/visitors.db" "$BACKUP_DIR/visitors_$TIMESTAMP.db"
@@ -55,7 +53,6 @@ jobs:
               echo "Warning: No SQLite database found in $BACKEND_DIR"
             fi
 
-            # 3. Backup Meilisearch
             echo "Triggering Meilisearch dump..."
             if [ -z "$MEILISEARCH_KEY" ]; then
               echo "Error: MEILISEARCH_KEY secret is empty."
@@ -223,7 +220,7 @@ jobs:
             set -e
 
             echo "Restarting FastAPI backend service..."
-            if sudo supervisorctl restart imadsaddik_com; then
+            if sudo supervisorctl restart all; then
               echo "FastAPI backend restarted successfully."
             else
               echo "Error: Failed to restart FastAPI backend."
@@ -232,11 +229,11 @@ jobs:
 
             # Verify the service is running
             sleep 5
-            if sudo supervisorctl status imadsaddik_com | grep -q "RUNNING"; then
+            if sudo supervisorctl status all | grep -q "RUNNING"; then
               echo "FastAPI backend is running."
             else
               echo "Error: FastAPI backend failed to start properly."
-              sudo supervisorctl status imadsaddik_com
+              sudo supervisorctl status all
               exit 1
             fi
 
