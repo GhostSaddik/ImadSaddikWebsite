@@ -141,3 +141,49 @@ jobs:
             MEILISEARCH_MASTER_KEY=$MEILISEARCH_KEY
             ENVIRONMENT=production
             EOF
+
+      - name: Install Python dependencies (atomic venv swap)
+        uses: appleboy/ssh-action@v1.2.4
+        with:
+          host: ${{ secrets.DIGITAL_OCEAN_HOST_IP }}
+          username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
+          key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
+          script: |
+            set -e
+
+            BACKEND_DIR="/web_app/backend"
+            cd $BACKEND_DIR
+
+            echo "Backing up current venv..."
+            if [ -d "venv" ]; then
+              mv venv venv_backup
+              echo "Current venv backed up to venv_backup."
+            fi
+
+            echo "Creating new virtual environment..."
+            python3 -m venv venv
+
+            echo "Installing Python dependencies..."
+            source venv/bin/activate
+            if pip install -r requirements.txt; then
+              echo "Python dependencies installed successfully."
+            else
+              echo "Error: Failed to install Python dependencies."
+              echo "Rolling back to previous venv..."
+              deactivate
+              rm -rf venv
+              if [ -d "venv_backup" ]; then
+                mv venv_backup venv
+                echo "Rollback complete."
+              fi
+              exit 1
+            fi
+            deactivate
+
+            # Clean up backup after successful deploy
+            if [ -d "venv_backup" ]; then
+              rm -rf venv_backup
+              echo "Cleaned up venv_backup."
+            fi
+
+            echo "Virtual environment setup completed successfully."
