@@ -20,7 +20,7 @@ describe("NavBar", () => {
   it("renders the home link with site name", () => {
     const wrapper = factory();
     const homeLink = wrapper.find(".nav-bar-home");
-    expect(homeLink.text()).toBe("Imad Saddik");
+    expect(homeLink.text()).toBe("Imad Saddik 2026");
     const homeLinkComponent = homeLink.findComponent(RouterLinkStub);
     expect(homeLinkComponent.props("to")).toBe(ROUTES.HOME.path);
   });
