@@ -187,3 +187,30 @@ jobs:
             fi
 
             echo "Virtual environment setup completed successfully."
+
+      - name: Restart backend service
+        uses: appleboy/ssh-action@v1.2.4
+        with:
+          host: ${{ secrets.DIGITAL_OCEAN_HOST_IP }}
+          username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
+          key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
+          script: |
+            set -e
+
+            echo "Restarting FastAPI backend service..."
+            if sudo supervisorctl restart all; then
+              echo "FastAPI backend restarted successfully."
+            else
+              echo "Error: Failed to restart FastAPI backend."
+              exit 1
+            fi
+
+            # Verify the service is running
+            sleep 5
+            if sudo supervisorctl status all | grep -q "RUNNING"; then
+              echo "FastAPI backend is running."
+            else
+              echo "Error: FastAPI backend failed to start properly."
+              sudo supervisorctl status all
+              exit 1
+            fi
