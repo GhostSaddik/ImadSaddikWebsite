@@ -113,3 +113,13 @@ jobs:
             echo "Cleaning old backups..."
             sudo /usr/local/bin/clean_backups.sh $BACKUP_RETENTION_COUNT
             echo "Backup process finished successfully."
+
+      - name: Rsync files to droplet
+        uses: easingthemes/ssh-deploy@v5.1.0
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.DIGITAL_OCEAN_HOST_IP }}
+          REMOTE_USER: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
+          SOURCE: "./"
+          TARGET: "/web_app/"
+          ARGS: "-avzr --delete --exclude-from='rsync_exclude.txt'"
