@@ -1,7 +1,7 @@
 <template>
   <section class="navbar-container">
     <div class="expanded-nav-bar">
-      <RouterLink class="nav-bar-home" :to="ROUTES.HOME.path">Imad Saddik</RouterLink>
+      <RouterLink class="nav-bar-home" :to="ROUTES.HOME.path">Imad Saddik 2026</RouterLink>
 
       <div>
         <RouterLink
