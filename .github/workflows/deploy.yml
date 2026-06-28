@@ -214,3 +214,31 @@ jobs:
               sudo supervisorctl status all
               exit 1
             fi
+
+      - name: Reload Nginx
+        uses: appleboy/ssh-action@v1.2.4
+        with:
+          host: ${{ secrets.DIGITAL_OCEAN_HOST_IP }}
+          username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
+          key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
+          script: |
+            set -e
+
+            echo "Testing Nginx configuration..."
+            if sudo nginx -t; then
+              echo "Nginx configuration is valid."
+            else
+              echo "Error: Nginx configuration test failed."
+              exit 1
+            fi
+
+            echo "Reloading Nginx..."
+            if sudo nginx -t; then
+              echo "Configuration OK. Reloading Nginx..."
+              sudo systemctl reload nginx
+            else
+              echo "Nginx configuration test failed! Not reloading."
+              exit 1
+            fi
+
+            echo "Deployment complete!"
